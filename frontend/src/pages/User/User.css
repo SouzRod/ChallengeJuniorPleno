@@ -84,6 +84,10 @@ td button {
     margin-left: 5px;
 }
 
+td button:hover {
+    cursor: pointer;
+}
+
 tbody tr:hover {
     padding: 0.5em 0.3em;
     background-color: #f5f5f5;
