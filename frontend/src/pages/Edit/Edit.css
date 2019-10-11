@@ -1,0 +1,91 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+}
+.containerPage{
+    width: 100%;
+    height: 100%;
+}
+
+.containerRegister {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.formRegister {
+    width: 500px;
+    height: 500px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    box-shadow: 1px 1px #dbdbdb;
+    margin-top: 50px;
+}
+
+.formRegister .inputRegister {
+    width: 73%;
+    height: 30px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 10px;
+    border: 1px solid #e6e6e6;
+}
+
+.divInput {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.inputCity, .inputState{
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    padding-left: 10px;
+    border: 1px solid #e6e6e6;
+}
+.inputCity {
+    width: 80%;
+}
+
+.inputState {
+    width: 20%;
+    margin-left: 5px;
+}
+
+.formRegister h1 {
+    margin-bottom: 100px;
+}
+
+.divButton {
+    margin-top: 30px;
+    width: 73%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.divButton .buttonRegister {
+    width: 40%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#register {
+    background-color: #3897f0;
+}

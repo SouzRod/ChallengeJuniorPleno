@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import './User.css';
 
 import api from '../../config/api'
+import btnDelete from '../../img/delete.svg';
+import btnEdit from '../../img/edit.svg';
 
 export default class User extends Component {
     constructor(props) {
@@ -19,15 +20,26 @@ export default class User extends Component {
         this.setState({ users: result.data })
     }
 
+
+    editUser = async (event) => {
+
+        event.preventDefault()
+
+        let id = event.target.id
+        let userList = await api.get('/user')
+
+        const user = userList.data.filter((user) => user._id === id)
+        this.props.history.push('/editar', { ...user[0] })
+    }
+
     createTable() {
         let table = this.state.users.map(user => {
-            return <tr id={user._id}>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>
-                        <Link id={user._id} className="linkButtons" to="#" onClick={e => this.showDetail(e)} >Detalhes</Link>
-                        <Link className="linkButtons" to="#">Deletar</Link>
-                        <Link className="linkButtons" to="#">alterar</Link>
+            return <tr id={user._id} onClick={e => this.showDetail(e)}>
+                    <td id={user._id}>{user.name}</td>
+                    <td id={user._id}>{user.email}</td>
+                    <td id={user._id}>
+                        <button id={user._id} type="button" onClick={e => this.deleteUser(e)}><img  id={user._id} src={btnDelete} alt="Delete" /></button>
+                        <button id={user._id} type="button" onClick={e => this.editUser(e)}><img  id={user._id} src={btnEdit} alt="Edit" /></button>
                     </td>
                    </tr>
         })
@@ -43,7 +55,6 @@ export default class User extends Component {
         let result = await api.get(`/user/${id}`)
 
         let user = result.data
-        console.log(user)
 
         this.elementDetail(user)
 
@@ -51,37 +62,62 @@ export default class User extends Component {
 
     elementDetail = user => {
         this.setState( { element : (
-            <div className="divDetailuser">
+            <div className="divDetailUser">
                 <div className="interDivDetail" id="iterDivDetail">
-                    <h1>Detalhes do produto</h1>
-                    <p>Nome: {user.name}</p>
-                    <p>E-mail: {user.description}</p>
-                    <p>Endereço: {user.description}</p>
-                    <p>Cidade: {user.description} - {user.description}</p>
-                    <p>Data de Criação: {user.createdAt}</p>
+                    <h2>Detalhes do Usuário</h2>
+                    <ul>
+                        <li><span>Nome:</span> {user.name}</li>
+                        <li><span>E-mail:</span> {user.email}</li>
+                        <li><span>Endereço:</span> {user.address}</li>
+                        <li><span>Cidade:</span> {user.city} - {user.state}</li>
+                        <li><span>Data de Criação:</span> {user.createdAt}</li>
+                    </ul>
                 </div>
             </div>
         )})
     }
 
+    deleteUser = async (event) => {
+        event.preventDefault()
+
+        let id = event.target.id
+        await api.delete(`/user/${id}`)
+
+        await this.getUser()
+        this.setState({ element: ''})
+    }
+
+    showPageRegister = (event) => {
+        event.preventDefault()
+
+        this.props.history.push('/cadastrar')
+         
+    }
+
     render(){
         return (
-            <div className="containerUser">
-                <div className="divTableUser">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                                <th>Botões</th>
-                            </tr>                           
-                        </thead>
-                        <tbody>
-                            {this.createTable()}
-                        </tbody>
-                    </table>
+            <div className="containerPage">
+                <div className="navBar">
+                    <h1>CRUD de usuário</h1>
+                    <button type="button" onClick={e => this.showPageRegister(e)}>Novo Usuário</button>
                 </div>
-                {this.state.element}
+                <div className="containerUser">
+                    <div className="divTableUser">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Ação</th>
+                                </tr>                           
+                            </thead>
+                            <tbody>
+                                {this.createTable()}
+                            </tbody>
+                        </table>
+                    </div>
+                    {this.state.element}
+                </div>
             </div>
         )
     }
